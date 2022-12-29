@@ -24,3 +24,11 @@
 (map calculate-intersection (map split-in-half instructions))
 (map #(reduce + (map get-priority %)) (map calculate-intersection (map split-in-half instructions)))
 (reduce + (map #(reduce + (map get-priority %)) (map calculate-intersection (map split-in-half instructions))))
+
+;; part 2
+(def instructions (clojure.string/split-lines
+                    (slurp "resources/day3.txt")))
+(map get-priority)
+(reduce + (map #(reduce + (map get-priority %)) (map #(apply clojure.set/intersection %) (partition 3 (map #(->> (seq %)
+                                                                                                                 (into #{})
+                                                                                                                 ) instructions)))))
