@@ -23,6 +23,7 @@
 (defn empty-set-difference?
   [s1 s2]
   (= #{} (set/difference s1 s2)))
+
 (defn does-encompass?
   [pair]
   (let [first-range (into #{} (apply inclusive-range (parse-range (first pair))))
@@ -33,3 +34,13 @@
 
 (prn instructions)
 (count (filter true? (map does-encompass? instructions)))
+
+;; pt 2
+(defn does-overlap?
+  [pair]
+  (let [first-range (into #{} (apply inclusive-range (parse-range (first pair))))
+        second-range (into #{} (apply inclusive-range (parse-range (second pair))))]
+    (not-empty (set/intersection first-range second-range))
+    ))
+
+(count (filter #(not (nil? %)) (map does-overlap? instructions)))
