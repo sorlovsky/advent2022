@@ -39,3 +39,8 @@
                (map #(apply clojure.set/intersection %)
                     (partition 3 (map #(->> (seq %)
                                             (into #{})) instructions)))))
+
+;(reduce #(if (and (= %2 "") (:prev-is-empty %1))
+;           (assoc %2 :prev %2)
+;           (conj (:coll %1) %2)
+;           ) {:prev-is-empty false} ["" "" "" "" "[D]"])
