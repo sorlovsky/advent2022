@@ -44,3 +44,4 @@
 ;           (assoc %2 :prev %2)
 ;           (conj (:coll %1) %2)
 ;           ) {:prev-is-empty false} ["" "" "" "" "[D]"])
+
