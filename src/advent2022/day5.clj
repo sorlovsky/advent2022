@@ -1,20 +1,7 @@
 (ns advent2022.day5)
-
-;    [D]
-;[N] [C]
-;[Z] [M] [P]
-; 1   2   3
-;
-;move 1 from 2 to 1
-;move 3 from 1 to 3
-;move 2 from 2 to 1
-;move 1 from 1 to 2
-
 (def instructions
   (->> (slurp "resources/day5.txt")
        (clojure.string/split-lines)))
-
-;(defn count-initial-state [initial-state] initial-state)
 
 (defn split-instructions
   [instructions]
@@ -28,18 +15,19 @@
 (defn get-rid-of-empties
   [row]
   (:stack
-   (reduce
-    (fn [coll val]
-      (let [val (-> val
-                    (clojure.string/replace #"\[" "")
-                    (clojure.string/replace #"\]" ""))]
-        (if (= val "")
-          (if (= (:prev coll) ["" "" ""])
-            (assoc (assoc coll :stack (conj (:stack coll) val)) :prev [])
-            (assoc coll :prev (conj (:prev coll) val)))
-          (assoc (assoc-in coll [:stack] (conj (:stack coll) val)) :prev [val]))))
-    {:stack [] :prev []}
-    row)))
+    (reduce
+      (fn [coll val]
+        ;(prn (:prev coll))
+        (let [val (-> val
+                      (clojure.string/replace #"\[" "")
+                      (clojure.string/replace #"\]" ""))]
+          (if (= val "")
+            (if (= (take-last 3 (:prev coll)) ["" "" ""])
+              (assoc (assoc coll :stack (conj (:stack coll) val)) :prev [])
+              (assoc coll :prev (conj (:prev coll) val)))
+            (assoc (assoc-in coll [:stack] (conj (:stack coll) val)) :prev [val]))))
+      {:stack [] :prev []}
+      row)))
 
 (defn put-row-on-stacks
   [stacks row]
@@ -50,8 +38,8 @@
 
 (defn execute-instruction
   [instruction stacks]
-  (prn stacks)
-  (prn instruction)
+  ;(prn stacks)
+  ;(prn instruction)
 
   (let [parsed-instruction (map
                             #(Integer/parseInt %)
